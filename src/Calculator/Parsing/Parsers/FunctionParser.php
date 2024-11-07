@@ -6,13 +6,15 @@ namespace App\Calculator\Parsing\Parsers;
 use App\Calculator\Parsing\SymbolParser;
 use App\Calculator\Parsing\ParsingContext;
 
-class OperatorParser implements SymbolParser {
+class FunctionParser implements SymbolParser {
 	private array $_symbols;
 	private $_callback;
+	private int $_param_count;
 
-	public function __construct(array|string $symbols, callable $callback) {
+	public function __construct(array|string $symbols, callable $callback, int $param_count = 0) {
 		$this->_symbols = is_array($symbols) ? $symbols : [$symbols];
 		$this->_callback = $callback;
+		$this->_param_count = $param_count;
 	}
 
 	public function parse(ParsingContext $context): bool {
@@ -22,18 +24,18 @@ class OperatorParser implements SymbolParser {
 			return false;
 		}
 
-		$previous = $context[-1];
-		$next = $context[1];
+		$params = array_slice(
+			$context->values(),
+			$context->key() + 1,
+			$this->_param_count
+		);
 
-		if (!is_float($previous) || !is_float($next)) {
-			if ($previous === null || $next === null) {
-				throw new \Exception('Invalid operation, missing operands');
-			}
-			return false;
+		if (count($params) < $this->_param_count) {
+			throw new \Exception('Invalid operation, missing function parameters');
 		}
 
-		$result = call_user_func($this->_callback, $previous, $next);
-		$context->collapse_result($result, 1, 1);
+		$result = call_user_func($this->_callback, ...$params);
+		$context->collapse_result($result, 0, $this->_param_count);
 		return true;
 	}
 
