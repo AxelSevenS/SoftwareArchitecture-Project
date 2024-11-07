@@ -10,10 +10,10 @@ use App\Calculator\Parsing\Parsers\OperatorParser;
 use App\Calculator\Parsing\Parsers\MultiParser;
 
 class Kernel {
-	private $_parser;
+	private $_parsers;
 
 	public function __construct() {
-		$this->_parser = new MultiParser([
+		$this->_parsers = [
 			new OperatorParser(
 				['^', '**'],
 				function(float $a, float $b): float { return $a ** $b; }
@@ -44,7 +44,7 @@ class Kernel {
 					function(float $a, float $b): float { return $a - $b; }
 				),
 			])
-		]);
+		];
 	}
 
 	public function run(array& $strings): void {
@@ -52,7 +52,7 @@ class Kernel {
 			return;
 		}
 
-		$calc = new SymbolsCalculator($this->_parser);
+		$calc = new SymbolsCalculator($this->_parsers);
 		$result = $calc->calculate($strings);
 		echo $result;
 	}
