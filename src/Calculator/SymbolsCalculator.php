@@ -16,7 +16,7 @@ class SymbolsCalculator {
 			$parser = [$parser];
 		}
 
-		$this->_parser = new MultiParser(parsers: $parser);
+		$this->_parser = new MultiParser($parser);
 	}
 
 	public function calculate(array& $strings): float {
