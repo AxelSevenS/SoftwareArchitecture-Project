@@ -32,7 +32,7 @@ class OperatorParser implements SymbolParser {
 			return false;
 		}
 
-		$result = call_user_func($this->_callback, $previous, $next);
+		$result = ($this->_callback)($previous, $next);
 		$context->collapse_result($result, 1, 1);
 		return true;
 	}

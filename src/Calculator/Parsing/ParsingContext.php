@@ -93,7 +93,7 @@ class ParsingContext implements Iterator, ArrayAccess {
 
 	public function result(): float {
 		if (count($this->_symbols) !== 1) {
-			throw new \Exception("Invalid result");
+			throw new \Exception("Could not Parse");
 		}
 		return $this->_symbols[0];
 	}

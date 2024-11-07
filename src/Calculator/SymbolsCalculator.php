@@ -11,16 +11,17 @@ class SymbolsCalculator {
 		private SyntaxAnalyzer $_analyzer
 	) { }
 
-	public function calculate(array& $strings): float {
-		$parsing_context = new ParsingContext($strings);
+	public function calculate(array& $symbols): string {
+
+		$parsing_context = new ParsingContext($symbols);
 
 		try {
 			$this->_analyzer->analyze($parsing_context);
 
-			return $parsing_context->result();
+			return (string) $parsing_context->result();
 		} catch (\Exception $e) {
 			echo $e->getMessage() . /* ' :: ' . join(' ', $parsing_context->values()) .  */"\n";
-			return 0;
+			return join(' ', $symbols);
 		}
 	}
 }

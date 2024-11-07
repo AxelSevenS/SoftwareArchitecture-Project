@@ -34,7 +34,7 @@ class FunctionParser implements SymbolParser {
 			throw new \Exception('Invalid operation, missing function parameters');
 		}
 
-		$result = call_user_func($this->_callback, ...$params);
+		$result = ($this->_callback)(...$params);
 		$context->collapse_result($result, 0, $this->_param_count);
 		return true;
 	}
