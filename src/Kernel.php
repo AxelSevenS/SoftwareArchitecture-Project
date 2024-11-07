@@ -1,19 +1,20 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App;
 
-use App\Calculator\Parsing\Parsers\AggregateParser;
 use App\Calculator\SymbolsCalculator;
+use App\Calculator\Parsing\Parsers\AggregateParser;
+use App\Calculator\Parsing\Parsers\ParserCollection;
 use App\Calculator\Parsing\Parsers\OperatorParser;
-use App\Calculator\Parsing\Parsers\MultiParser;
+use App\Calculator\Analyzing\SyntaxAnalyzer;
+use App\Calculator\Analyzing\Analyzers\ParenthesesAnalyzer;
 
 class Kernel {
-	private $_parsers;
+	private SyntaxAnalyzer $_analyzer;
 
 	public function __construct() {
-		$this->_parsers = [
+		$this->_analyzer = new ParenthesesAnalyzer(new ParserCollection([
 			new OperatorParser(
 				['^', '**'],
 				function(float $a, float $b): float { return $a ** $b; }
@@ -44,7 +45,7 @@ class Kernel {
 					function(float $a, float $b): float { return $a - $b; }
 				),
 			])
-		];
+		]));
 	}
 
 	public function run(array& $strings): void {
@@ -52,9 +53,9 @@ class Kernel {
 			return;
 		}
 
-		$calc = new SymbolsCalculator($this->_parsers);
-		$result = $calc->calculate($strings);
-		echo $result;
+		$calc = new SymbolsCalculator($this->_analyzer);
+
+		echo $calc->calculate($strings);
 	}
 
 	public function __invoke(array& $strings): void {

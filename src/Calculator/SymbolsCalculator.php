@@ -1,29 +1,26 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Calculator;
 
+use App\Calculator\Analyzing\SyntaxAnalyzer;
 use App\Calculator\Parsing\ParsingContext;
-use App\Calculator\Parsing\Parser;
-use App\Calculator\Parsing\Parsers\MultiParser;
 
 class SymbolsCalculator {
-	private MultiParser $_parser;
-
-	public function __construct(Parser|array $parser) {
-		if (!is_array($parser)) {
-			$parser = [$parser];
-		}
-
-		$this->_parser = new MultiParser($parser);
-	}
+	public function __construct(
+		private SyntaxAnalyzer $_analyzer
+	) { }
 
 	public function calculate(array& $strings): float {
 		$parsing_context = new ParsingContext($strings);
 
-		$this->_parser->parse($parsing_context);
+		try {
+			$this->_analyzer->analyze($parsing_context);
 
-		return $parsing_context->result();
+			return $parsing_context->result();
+		} catch (\Exception $e) {
+			echo $e->getMessage() . /* ' :: ' . join(' ', $parsing_context->values()) .  */"\n";
+			return 0;
+		}
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Calculator\Parsing;
@@ -53,6 +52,10 @@ class ParsingContext implements Iterator, ArrayAccess {
 		return $this->_index;
 	}
 
+	public function values(): array {
+		return $this->_symbols;
+	}
+
 	public function next(): void {
 		$this->_index++;
 	}
@@ -61,8 +64,19 @@ class ParsingContext implements Iterator, ArrayAccess {
 		$this->_index = 0;
 	}
 
+	public function move_to(int $index): void {
+		$this->_index = $index;
+	}
+
 	public function valid(): bool {
 		return isset($this->_symbols[$this->_index]);
+	}
+
+	public function remove(int $index): void {
+		array_splice($this->_symbols, $index, 1);
+		if ($index <= $this->_index) {
+			$this->_index--;
+		}
 	}
 
 	public function collapse_result(
@@ -79,7 +93,7 @@ class ParsingContext implements Iterator, ArrayAccess {
 
 	public function result(): float {
 		if (count($this->_symbols) !== 1) {
-			throw new \Exception("Invalid result " . print_r($this->_symbols));
+			throw new \Exception("Invalid result");
 		}
 		return $this->_symbols[0];
 	}
