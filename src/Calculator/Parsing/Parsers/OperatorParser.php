@@ -19,7 +19,9 @@ class OperatorParser implements Parser {
 	public function parse(ParsingContext $context): bool {
 		$operation = $context->current();
 
-		if (!in_array($operation, $this->_symbols, true)) return false;
+		if (!in_array($operation, $this->_symbols, true)) {
+			return false;
+		}
 
 		$previous = $context[-1];
 		$next = $context[1];
