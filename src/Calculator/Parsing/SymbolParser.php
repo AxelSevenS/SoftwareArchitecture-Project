@@ -7,4 +7,5 @@ use App\Calculator\Parsing\ParsingContext;
 
 interface SymbolParser {
 	function parse(ParsingContext $context): bool;
+	function get_tokens(): array;
 }

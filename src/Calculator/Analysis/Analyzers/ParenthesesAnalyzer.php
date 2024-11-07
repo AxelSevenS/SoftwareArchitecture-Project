@@ -8,10 +8,12 @@ use App\Calculator\Parsing\ParsingContext;
 use App\Calculator\Analysis\SyntaxAnalyzer;
 use App\Calculator\Analysis\ParenthesesData;
 
-class ParenthesesAnalyzer implements SyntaxAnalyzer {
+class ParenthesesAnalyzer extends SyntaxAnalyzer {
 	public function __construct(
-		private ParserCollection $_parser_collection
-	) { }
+		ParserCollection $_parser_collection
+	) {
+		parent::__construct($_parser_collection);
+	}
 
 	public function analyze(ParsingContext $context): bool {
 		$parentheses_scopes = [];
@@ -36,12 +38,12 @@ class ParenthesesAnalyzer implements SyntaxAnalyzer {
 		foreach ($parentheses_scopes as $parentheses_scope) {
 			$parsed = $parentheses_scope->parse($context, $this->_parser_collection) || $parsed;
 		}
+		$parsed = parent::analyze($context) || $parsed;
 
-		foreach ($this->_parser_collection as $parser) {
-			foreach ($context as $symbol) {
-				$parsed = $parser->parse($context) || $parsed;
-			}
-		}
 		return $parsed;
+	}
+
+	protected function _get_tokens(): array {
+		return ['(', ')'];
 	}
 }

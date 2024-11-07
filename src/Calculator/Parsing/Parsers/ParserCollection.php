@@ -71,4 +71,10 @@ class ParserCollection implements SymbolParser, Iterator, ArrayAccess {
 		}
 		return $parsed;
 	}
+
+	public function get_tokens(): array {
+		return array_reduce($this->_parsers, function($acc, $parser) {
+			return array_merge($acc, $parser->get_tokens());
+		}, []);
+	}
 }

@@ -12,6 +12,7 @@ class SymbolsCalculator {
 	) { }
 
 	public function calculate(array& $symbols): string {
+		$symbols = $this->_analyzer->sanitize_symbols($symbols);
 
 		$parsing_context = new ParsingContext($symbols);
 

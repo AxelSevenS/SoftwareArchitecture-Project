@@ -37,6 +37,10 @@ class OperatorParser implements SymbolParser {
 		return true;
 	}
 
+	public function get_tokens(): array {
+		return $this->_symbols;
+	}
+
 	public function __toString(): string {
 		return implode(', ', $this->_symbols);
 	}
