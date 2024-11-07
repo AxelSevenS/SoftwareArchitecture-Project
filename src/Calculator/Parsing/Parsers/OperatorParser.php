@@ -8,11 +8,11 @@ use App\Calculator\Parsing\Parser;
 use App\Calculator\Parsing\ParsingContext;
 
 class OperatorParser extends Parser {
-	private string $_symbol;
+	private array $_symbols;
 	private $_callback;
 
-	public function __construct(string $symbol, callable $callback) {
-		$this->_symbol = $symbol;
+	public function __construct(array|string $symbols, callable $callback) {
+		$this->_symbols = is_array($symbols) ? $symbols : [$symbols];
 		$this->_callback = $callback;
 	}
 
@@ -22,7 +22,7 @@ class OperatorParser extends Parser {
 		$previous = $context[-1] ?? 0;
 		$next = $context[1] ?? 0;
 		$result = 0;
-		if ($operation !== $this->_symbol) {
+		if (!in_array($operation, $this->_symbols, true)) {
 			return false;
 		}
 		$result = call_user_func($this->_callback, $previous, $next);

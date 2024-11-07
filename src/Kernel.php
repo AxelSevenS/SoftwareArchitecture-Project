@@ -14,7 +14,7 @@ class Kernel {
 
 	public function __construct() {
 		$this->_exponentMultiplicationDivisionModulusParsers = new AggregateParser([
-			new OperatorParser('^', function(float $a, float $b): float { return $a ** $b; }),
+			new OperatorParser(['^', '**'], function(float $a, float $b): float { return $a ** $b; }),
 			new OperatorParser('*', function(float $a, float $b): float { return $a * $b; }),
 			new OperatorParser('/', function(float $a, float $b): float { return $a / $b; }),
 			new OperatorParser('%', function(float $a, float $b): float { return $a % $b; }),
