@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Calculator\Analyzing\Analyzers;
+namespace App\Calculator\Analysis\Analyzers;
 
 use App\Calculator\Parsing\ParsingContext;
 use App\Calculator\Parsing\Parsers\ParserCollection;
-use App\Calculator\Analyzing\SyntaxAnalyzer;
+use App\Calculator\Analysis\SyntaxAnalyzer;
 
 class SimpleAnalyzer implements SyntaxAnalyzer {
 	protected ParserCollection $_parser_collection;

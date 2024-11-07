@@ -7,8 +7,8 @@ use App\Calculator\SymbolsCalculator;
 use App\Calculator\Parsing\Parsers\AggregateParser;
 use App\Calculator\Parsing\Parsers\ParserCollection;
 use App\Calculator\Parsing\Parsers\OperatorParser;
-use App\Calculator\Analyzing\SyntaxAnalyzer;
-use App\Calculator\Analyzing\Analyzers\ParenthesesAnalyzer;
+use App\Calculator\Analysis\SyntaxAnalyzer;
+use App\Calculator\Analysis\Analyzers\ParenthesesAnalyzer;
 
 class Kernel {
 	private SyntaxAnalyzer $_analyzer;

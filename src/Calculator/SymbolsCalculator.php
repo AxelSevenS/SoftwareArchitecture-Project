@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Calculator;
 
-use App\Calculator\Analyzing\SyntaxAnalyzer;
+use App\Calculator\Analysis\SyntaxAnalyzer;
 use App\Calculator\Parsing\ParsingContext;
 
 class SymbolsCalculator {
