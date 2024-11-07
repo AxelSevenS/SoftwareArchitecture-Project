@@ -6,6 +6,6 @@ namespace App\Calculator\Parsing;
 
 use App\Calculator\Parsing\ParsingContext;
 
-abstract class Parser {
-	public abstract function parse(ParsingContext $context): bool;
+interface Parser {
+	function parse(ParsingContext $context): bool;
 }

@@ -7,7 +7,7 @@ namespace App\Calculator\Parsing\Parsers;
 use App\Calculator\Parsing\Parser;
 use App\Calculator\Parsing\ParsingContext;
 
-class OperatorParser extends Parser {
+class OperatorParser implements Parser {
 	private array $_symbols;
 	private $_callback;
 

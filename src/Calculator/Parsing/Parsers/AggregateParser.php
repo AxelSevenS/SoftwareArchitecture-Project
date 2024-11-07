@@ -7,7 +7,7 @@ namespace App\Calculator\Parsing\Parsers;
 use App\Calculator\Parsing\Parser;
 use App\Calculator\Parsing\ParsingContext;
 
-class AggregateParser extends Parser {
+class AggregateParser implements Parser {
 	private array $_parsers;
 
 	public function __construct(array $parsers) {
