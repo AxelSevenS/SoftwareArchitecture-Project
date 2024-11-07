@@ -14,23 +14,43 @@ class Kernel {
 
 	public function __construct() {
 		$this->_parser = new MultiParser([
-			new OperatorParser(['^', '**'], function(float $a, float $b): float { return $a ** $b; }),
+			new OperatorParser(
+				['^', '**'],
+				function(float $a, float $b): float { return $a ** $b; }
+			),
 
 			new AggregateParser([
-				new OperatorParser('*', function(float $a, float $b): float { return $a * $b; }),
-				new OperatorParser('/', function(float $a, float $b): float { return $a / $b; }),
-				new OperatorParser('%', function(float $a, float $b): float { return $a % $b; }),
+				new OperatorParser(
+					'*',
+					function(float $a, float $b): float { return $a * $b; }
+				),
+				new OperatorParser(
+					'/',
+					function(float $a, float $b): float { return $a / $b; }
+				),
+				new OperatorParser(
+					'%',
+					function(float $a, float $b): float { return $a % $b; }
+				),
 			]),
 
 			new AggregateParser([
-				new OperatorParser('+', function(float $a, float $b): float { return $a + $b; }),
-				new OperatorParser('-', function(float $a, float $b): float { return $a - $b; }),
+				new OperatorParser(
+					'+',
+					function(float $a, float $b): float { return $a + $b; }
+				),
+				new OperatorParser(
+					'-',
+					function(float $a, float $b): float { return $a - $b; }
+				),
 			])
 		]);
 	}
 
 	public function run(array& $strings): void {
-		if (!is_array($strings)) return;
+		if (!is_array($strings)) {
+			return;
+		}
 
 		$calc = new SymbolsCalculator($this->_parser);
 		$result = $calc->calculate($strings);
