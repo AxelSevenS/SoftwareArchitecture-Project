@@ -13,6 +13,13 @@ class ParsingContext implements Iterator, ArrayAccess {
 
 	public function __construct(array $symbols) {
 		$this->_symbols = $symbols;
+
+		foreach ($this->_symbols as &$symbol) {
+			if (is_numeric($symbol)) {
+				$symbol = (float) $symbol;
+			}
+		}
+
 		$this->rewind();
 	}
 
