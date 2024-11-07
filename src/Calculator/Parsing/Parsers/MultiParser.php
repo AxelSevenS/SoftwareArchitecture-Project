@@ -10,7 +10,10 @@ use App\Calculator\Parsing\ParsingContext;
 class MultiParser implements Parser {
 	private array $_parsers;
 
-	public function __construct(array $parsers) {
+	public function __construct(Parser|array $parsers) {
+		if (!is_array($parsers)) {
+			$parsers = [$parsers];
+		}
 		$this->_parsers = $parsers;
 	}
 
