@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace App\Calculator;
 
 use App\Calculator\Parsing\ParsingContext;
+use App\Calculator\Parsing\Parser;
+use App\Calculator\Parsing\Parsers\MultiParser;
 
 class SymbolsCalculator {
-	private array $_parsers;
+	private MultiParser $_parser;
 
-	public function __construct(array $parsers = []) {
-		$this->_parsers = $parsers;
+	public function __construct(Parser|array $parser) {
+		if (!is_array($parser)) {
+			$parser = [$parser];
+		}
+
+		$this->_parser = new MultiParser(parsers: $parser);
 	}
 
 	public function calculate(array& $strings): float {
 		$parsing_context = new ParsingContext($strings);
 
-		foreach ($this->_parsers as $parser) {
-			foreach ($parsing_context as $symbol) {
-				if ($parser->parse($parsing_context)) break;
-			}
-		}
+		$this->_parser->parse($parsing_context);
 
 		return $parsing_context->result();
 	}

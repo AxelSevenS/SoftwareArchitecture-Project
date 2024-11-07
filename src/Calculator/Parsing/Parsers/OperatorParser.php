@@ -17,16 +17,23 @@ class OperatorParser extends Parser {
 	}
 
 	public function parse(ParsingContext $context): bool {
-		// if the current symbol is an operation, we need to collapse it as an operation
 		$operation = $context->current();
-		$previous = $context[-1] ?? 0;
-		$next = $context[1] ?? 0;
-		$result = 0;
-		if (!in_array($operation, $this->_symbols, true)) {
-			return false;
+
+		if (!in_array($operation, $this->_symbols, true)) return false;
+
+		$previous = $context[-1];
+		$next = $context[1];
+
+		if ($previous === null || $next === null) {
+			throw new \Exception('Invalid operation, missing operands');
 		}
+
 		$result = call_user_func($this->_callback, $previous, $next);
 		$context->collapse_result($result, 1, 1);
 		return true;
+	}
+
+	public function __toString(): string {
+		return implode(', ', $this->_symbols);
 	}
 }
