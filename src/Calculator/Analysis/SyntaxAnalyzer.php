@@ -34,11 +34,15 @@ abstract class SyntaxAnalyzer {
 		return array_reduce($symbol_parts, function ($detached_parts, $part) use ($token) {
 			if (strpos($part, $token) !== false) {
 				$escapedToken = preg_quote($token, '/');
-				$split_parts = preg_split(
-					"/($escapedToken)/",
-					$part,
-					-1,
-					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+
+				$split_parts = array_filter(
+					preg_split(
+						"/($escapedToken)/",
+						$part,
+						-1,
+						PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+					),
+					fn($value) => !is_null($value) && trim($value) !== ''
 				);
 
 				$detached_parts = array_merge($detached_parts, $split_parts);
