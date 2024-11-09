@@ -16,8 +16,10 @@ class Kernel {
 
 	public function __construct() {
 		$this->_analyzer = new ParenthesesAnalyzer(new ParserCollection([
-			new FunctionParser('cos', function(float $a): float { return cos($a); }, 1),
-			new FunctionParser('sin', function(float $a): float { return sin($a); }, 1),
+			new AggregateParser([
+				new FunctionParser('cos', function(float $a): float { return cos($a); }, 1),
+				new FunctionParser('sin', function(float $a): float { return sin($a); }, 1),
+			]),
 
 			new OperatorParser(
 				['^', '**'],

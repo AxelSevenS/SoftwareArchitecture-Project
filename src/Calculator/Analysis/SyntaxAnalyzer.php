@@ -33,34 +33,28 @@ abstract class SyntaxAnalyzer {
 
 	private function tokenize_symbols(array& $symbols, array& $tokens): array {
 		usort($tokens, fn($a, $b) => strlen($b) - strlen($a));
-		$escapedTokens = '~(' . implode('|', array_map('preg_quote', $tokens)) . ')~';
+		$tokens_pattern = '~(' . implode('|', array_map('preg_quote', $tokens)) . ')~';
 
-		return array_reduce(
-			$symbols,
-			function ($tokenized_symbols, $symbol) use ($escapedTokens) {
-				return array_merge(
-					$tokenized_symbols,
-					array_reduce([$symbol], function ($detached_parts, $part) use ($escapedTokens) {
+		// Tokenize all symbols
+		return array_reduce($symbols, function ($tokenized_symbols, $symbol) use ($tokens_pattern) {
 
-						$split_parts = preg_split(
-							$escapedTokens,
-							$part,
-							-1,
-							PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-						);
-						$split_parts = array_map('trim', $split_parts);
-
-						$split_parts = array_filter(
-							$split_parts,
-							fn($value) => !is_null($value) && $value !== ''
-						);
-
-						$detached_parts = array_merge($detached_parts, $split_parts);
-						return $detached_parts;
-					}, [])
+			// Tokenize a single symbol
+			$tokenized_symbol = array_reduce([$symbol], function ($sanitized_symbol, $symbol) use ($tokens_pattern) {
+				$split_symbol = preg_split(
+					$tokens_pattern,
+					$symbol,
+					-1,
+					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
 				);
-			}, []
-		);
+
+				$split_symbol = array_map('trim', $split_symbol);
+				$split_symbol = array_filter($split_symbol, fn($value) => $value !== '');
+
+				return array_merge($sanitized_symbol, $split_symbol);
+			}, []);
+
+			return array_merge($tokenized_symbols, $tokenized_symbol);
+		}, []);
 	}
 
 	abstract protected function _get_tokens(): array;
