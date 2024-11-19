@@ -31,4 +31,4 @@ vous pouvez passer au script autant d'arguments que vous voulez, avec n'importe 
 ```
 
 ### Auteur
-Ce programme a été développé, conceptionné et programmé par Axel Sevenet, [@AxelSevenS](https://github.com/AxelSevenS) 
+Ce programme a été développé, conçu et programmé par Axel Sevenet, [@AxelSevenS](https://github.com/AxelSevenS) 
