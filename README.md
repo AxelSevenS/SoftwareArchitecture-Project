@@ -6,7 +6,7 @@
 Pour installer ce projet, il suffit de:
 cloner le repo
 ```shell
-git clone https://github.com/AxelSevenS/SoftwareArchitecture-Projet [chemind
+git clone https://github.com/AxelSevenS/SoftwareArchitecture-Projet [chemin
  du dossier]
 ```
 
