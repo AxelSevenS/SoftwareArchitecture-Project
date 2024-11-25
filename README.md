@@ -24,10 +24,10 @@ docker compose up php-composer
 Pour utiliser le projet, il suffit d'exécuter le script PHP "calc.php" en lui fournissant en arguments les calculs à effectuer;
 vous pouvez passer au script autant d'arguments que vous voulez, avec n'importe quel format, tant que votre terminal est capable de lire les arguments:
 ```shell
-./src/calc.php 1 + 1
-./src/calc.php "1 + 1"
-./src/calc.php 1+1
-./src/calc.php "1 + (2 - 1)" 
+php ./src/calc.php 1 + 1
+php ./src/calc.php "1 + 1"
+php ./src/calc.php 1+1
+php ./src/calc.php "1 + (2 - 1)" 
 ```
 
 ### Auteur
